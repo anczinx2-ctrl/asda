@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 interface AnimatedGreenRobotProps {
   size?: number;
@@ -7,185 +7,220 @@ interface AnimatedGreenRobotProps {
 }
 
 export default function AnimatedGreenRobot({
-  size = 1000,
-  color = '#00FF00',
-  animationSpeed = 2
+  size = 800,
+  color = "#00FF00",
+  animationSpeed = 2,
 }: AnimatedGreenRobotProps) {
-  const scale = size / 1000;
-
   return (
     <div
       style={{
-        position: 'absolute',
-        right: '20px',
-        bottom: '80px',
-        width: `${size * 0.15}px`,
+        position: "absolute",
+        right: "20px",
+        bottom: "60px",
+        width: `${size * 0.18}px`,
         height: `${size * 0.25}px`,
-        pointerEvents: 'none',
-        zIndex: 50
+        pointerEvents: "none",
+        zIndex: 50,
       }}
     >
       <motion.svg
         viewBox="0 0 200 300"
         style={{
-          width: '100%',
-          height: '100%',
-          filter: 'drop-shadow(0 0 8px rgba(0, 255, 0, 0.6))'
+          width: "100%",
+          height: "100%",
+          filter: "drop-shadow(0 0 10px rgba(0,255,0,0.6))",
         }}
         animate={{
           filter: [
-            'drop-shadow(0 0 8px rgba(0, 255, 0, 0.6))',
-            'drop-shadow(0 0 16px rgba(0, 255, 0, 0.8))',
-            'drop-shadow(0 0 8px rgba(0, 255, 0, 0.6))'
-          ]
+            "drop-shadow(0 0 10px rgba(0,255,0,0.6))",
+            "drop-shadow(0 0 20px rgba(0,255,0,0.9))",
+            "drop-shadow(0 0 10px rgba(0,255,0,0.6))",
+          ],
         }}
         transition={{
-          duration: animationSpeed,
+          duration: animationSpeed * 1.2,
           repeat: Infinity,
-          ease: 'easeInOut'
+          ease: "easeInOut",
         }}
       >
-        <defs>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-
         <motion.g
-          animate={{
-            opacity: [0.7, 1, 0.7]
-          }}
+          animate={{ opacity: [0.7, 1, 0.7] }}
           transition={{
-            duration: animationSpeed * 0.5,
+            duration: animationSpeed,
             repeat: Infinity,
-            ease: 'easeInOut'
+            ease: "easeInOut",
           }}
         >
-          {/* Left Antenna */}
-          <line x1="70" y1="20" x2="70" y2="5" stroke={color} strokeWidth="2" />
-          <circle cx="70" cy="5" r="3" stroke={color} strokeWidth="2" fill="none" />
+          {/* === BODY (Wireframe cylinder) === */}
+          <rect
+            x="80"
+            y="50"
+            width="40"
+            height="120"
+            rx="10"
+            stroke={color}
+            strokeWidth="2.5"
+            fill="none"
+          />
+          {/* Horizontal lines */}
+          {[70, 90, 110, 130, 150].map((y) => (
+            <line
+              key={y}
+              x1="80"
+              y1={y}
+              x2="120"
+              y2={y}
+              stroke={color}
+              strokeWidth="1"
+              opacity="0.6"
+            />
+          ))}
+          {/* Vertical divisions */}
+          <line x1="90" y1="50" x2="90" y2="170" stroke={color} strokeWidth="1" opacity="0.6" />
+          <line x1="100" y1="50" x2="100" y2="170" stroke={color} strokeWidth="1" opacity="0.6" />
+          <line x1="110" y1="50" x2="110" y2="170" stroke={color} strokeWidth="1" opacity="0.6" />
 
-          {/* Right Antenna */}
-          <line x1="130" y1="20" x2="130" y2="5" stroke={color} strokeWidth="2" />
-          <circle cx="130" cy="5" r="3" stroke={color} strokeWidth="2" fill="none" />
-
-          {/* Head - rounded rectangle with grid */}
-          <rect x="60" y="20" width="80" height="50" rx="8" stroke={color} strokeWidth="2.5" fill="none" />
-
-          {/* Head grid lines - vertical */}
-          <line x1="85" y1="20" x2="85" y2="70" stroke={color} strokeWidth="1.5" opacity="0.6" />
-          <line x1="100" y1="20" x2="100" y2="70" stroke={color} strokeWidth="1.5" opacity="0.6" />
-          <line x1="115" y1="20" x2="115" y2="70" stroke={color} strokeWidth="1.5" opacity="0.6" />
-
-          {/* Head grid lines - horizontal */}
-          <line x1="60" y1="37" x2="140" y2="37" stroke={color} strokeWidth="1.5" opacity="0.6" />
-          <line x1="60" y1="53" x2="140" y2="53" stroke={color} strokeWidth="1.5" opacity="0.6" />
-
-          {/* Eye/Sensor - concentric circles with rotation */}
-          <motion.g
-            animate={{
-              rotate: [0, 360]
-            }}
+          {/* Eye/Sensor */}
+          <motion.circle
+            cx="100"
+            cy="85"
+            r="8"
+            stroke={color}
+            strokeWidth="2"
+            fill="none"
+            animate={{ scale: [1, 1.1, 1] }}
             transition={{
-              duration: animationSpeed * 2,
+              duration: animationSpeed * 0.8,
               repeat: Infinity,
-              ease: 'linear'
+              ease: "easeInOut",
             }}
-            style={{ originX: '100px', originY: '45px' }}
-          >
-            <circle cx="100" cy="45" r="12" stroke={color} strokeWidth="2" fill="none" />
-            <circle cx="100" cy="45" r="8" stroke={color} strokeWidth="2" fill="none" />
-            <circle cx="100" cy="45" r="4" stroke={color} strokeWidth="2" fill="none" />
-            <line x1="100" y1="45" x2="112" y2="45" stroke={color} strokeWidth="2" />
-          </motion.g>
-
-          {/* Body - rectangle with grid pattern */}
-          <rect x="70" y="80" width="60" height="90" stroke={color} strokeWidth="2.5" fill="none" />
-
-          {/* Body grid - vertical lines (3 columns, so 2 dividers) */}
-          <line x1="90" y1="80" x2="90" y2="170" stroke={color} strokeWidth="1.5" opacity="0.6" />
-          <line x1="110" y1="80" x2="110" y2="170" stroke={color} strokeWidth="1.5" opacity="0.6" />
-
-          {/* Body grid - horizontal lines (5 rows, so 4 dividers) */}
-          <line x1="70" y1="98" x2="130" y2="98" stroke={color} strokeWidth="1.5" opacity="0.6" />
-          <line x1="70" y1="116" x2="130" y2="116" stroke={color} strokeWidth="1.5" opacity="0.6" />
-          <line x1="70" y1="134" x2="130" y2="134" stroke={color} strokeWidth="1.5" opacity="0.6" />
-          <line x1="70" y1="152" x2="130" y2="152" stroke={color} strokeWidth="1.5" opacity="0.6" />
-
-          {/* Center power indicator */}
-          <circle cx="100" cy="125" r="8" stroke={color} strokeWidth="2" fill="none" opacity="0.8" />
-          <circle cx="100" cy="125" r="4" stroke={color} strokeWidth="2" fill={color} opacity="0.3" />
-
-          {/* Left Leg with bounce animation */}
-          <motion.g
-            animate={{
-              y: [-2, 2, -2]
-            }}
+          />
+          <motion.circle
+            cx="100"
+            cy="85"
+            r="3"
+            fill={color}
+            animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{
               duration: animationSpeed * 0.6,
               repeat: Infinity,
-              ease: 'easeInOut',
-              delay: 0
+              ease: "easeInOut",
             }}
-          >
-            {/* Upper leg segment */}
-            <line x1="80" y1="170" x2="70" y2="210" stroke={color} strokeWidth="2.5" />
-            <line x1="85" y1="170" x2="75" y2="210" stroke={color} strokeWidth="2.5" />
-            <ellipse cx="82.5" cy="170" rx="5" ry="3" stroke={color} strokeWidth="2" fill="none" />
+          />
 
-            {/* Knee joint */}
-            <circle cx="72.5" cy="210" r="5" stroke={color} strokeWidth="2" fill="none" />
+          {/* === LEGS (3 articulated limbs) === */}
 
-            {/* Lower leg segment */}
-            <line x1="70" y1="215" x2="65" y2="255" stroke={color} strokeWidth="2.5" />
-            <line x1="75" y1="215" x2="70" y2="255" stroke={color} strokeWidth="2.5" />
-
-            {/* Foot */}
-            <ellipse cx="67.5" cy="255" rx="8" ry="4" stroke={color} strokeWidth="2.5" fill="none" />
-            <line x1="60" y1="255" x2="75" y2="255" stroke={color} strokeWidth="2.5" />
-          </motion.g>
-
-          {/* Right Leg with bounce animation (opposite phase) */}
+          {/* LEFT LEG */}
           <motion.g
             animate={{
-              y: [2, -2, 2]
+              rotate: [-6, 6, -6],
             }}
             transition={{
-              duration: animationSpeed * 0.6,
+              duration: animationSpeed,
               repeat: Infinity,
-              ease: 'easeInOut',
-              delay: 0
+              ease: "easeInOut",
             }}
+            style={{ originX: "80px", originY: "170px" }}
           >
-            {/* Upper leg segment */}
-            <line x1="115" y1="170" x2="125" y2="210" stroke={color} strokeWidth="2.5" />
-            <line x1="120" y1="170" x2="130" y2="210" stroke={color} strokeWidth="2.5" />
-            <ellipse cx="117.5" cy="170" rx="5" ry="3" stroke={color} strokeWidth="2" fill="none" />
-
+            {/* Upper segment */}
+            <line
+              x1="80"
+              y1="170"
+              x2="55"
+              y2="210"
+              stroke={color}
+              strokeWidth="2.5"
+              fill="none"
+            />
             {/* Knee joint */}
-            <circle cx="127.5" cy="210" r="5" stroke={color} strokeWidth="2" fill="none" />
-
-            {/* Lower leg segment */}
-            <line x1="125" y1="215" x2="130" y2="255" stroke={color} strokeWidth="2.5" />
-            <line x1="130" y1="215" x2="135" y2="255" stroke={color} strokeWidth="2.5" />
-
+            <circle cx="55" cy="210" r="5" stroke={color} strokeWidth="2" fill="none" />
+            {/* Lower segment */}
+            <line
+              x1="55"
+              y1="210"
+              x2="45"
+              y2="250"
+              stroke={color}
+              strokeWidth="2.5"
+              fill="none"
+            />
             {/* Foot */}
-            <ellipse cx="132.5" cy="255" rx="8" ry="4" stroke={color} strokeWidth="2.5" fill="none" />
-            <line x1="125" y1="255" x2="140" y2="255" stroke={color} strokeWidth="2.5" />
+            <path
+              d="M35 250 L55 250 L50 255 Z"
+              stroke={color}
+              strokeWidth="2"
+              fill="none"
+            />
           </motion.g>
 
-          {/* Arms */}
-          <line x1="70" y1="95" x2="45" y2="120" stroke={color} strokeWidth="2.5" />
-          <circle cx="45" cy="120" r="4" stroke={color} strokeWidth="2" fill="none" />
+          {/* RIGHT LEG */}
+          <motion.g
+            animate={{
+              rotate: [6, -6, 6],
+            }}
+            transition={{
+              duration: animationSpeed,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{ originX: "120px", originY: "170px" }}
+          >
+            <line
+              x1="120"
+              y1="170"
+              x2="145"
+              y2="210"
+              stroke={color}
+              strokeWidth="2.5"
+            />
+            <circle cx="145" cy="210" r="5" stroke={color} strokeWidth="2" fill="none" />
+            <line
+              x1="145"
+              y1="210"
+              x2="155"
+              y2="250"
+              stroke={color}
+              strokeWidth="2.5"
+            />
+            <path
+              d="M145 250 L165 250 L160 255 Z"
+              stroke={color}
+              strokeWidth="2"
+              fill="none"
+            />
+          </motion.g>
 
-          <line x1="130" y1="95" x2="155" y2="120" stroke={color} strokeWidth="2.5" />
-          <circle cx="155" cy="120" r="4" stroke={color} strokeWidth="2" fill="none" />
+          {/* CENTER LEG (static stabilizer with bounce) */}
+          <motion.g
+            animate={{
+              y: [-3, 3, -3],
+            }}
+            transition={{
+              duration: animationSpeed * 0.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <line
+              x1="100"
+              y1="170"
+              x2="100"
+              y2="240"
+              stroke={color}
+              strokeWidth="2.5"
+            />
+            <ellipse
+              cx="100"
+              cy="245"
+              rx="8"
+              ry="3"
+              stroke={color}
+              strokeWidth="2.5"
+              fill="none"
+            />
+          </motion.g>
         </motion.g>
       </motion.svg>
     </div>
   );
-} 
+}
