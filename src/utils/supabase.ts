@@ -383,21 +383,19 @@ export const updateStudentProfile = async (
 export const getAuthorizedInstitutions = async (): Promise<Array<{ address: string; name: string }>> => {
   try {
     const { data, error } = await supabase
-      .from('credentials')
-      .select('institution_address, institution_name');
+      .from('institution_authorization_requests')
+      .select('wallet_address, institution_name')
+      .eq('status', 'approved');
 
     if (error) throw error;
 
-    const institutionMap = new Map<string, string>();
-    data?.forEach(cred => {
-      if (cred.institution_address && cred.institution_name) {
-        institutionMap.set(cred.institution_address, cred.institution_name);
-      }
-    });
+    if (!data || data.length === 0) {
+      return [];
+    }
 
-    return Array.from(institutionMap.entries()).map(([address, name]) => ({
-      address,
-      name
+    return data.map(inst => ({
+      address: inst.wallet_address,
+      name: inst.institution_name
     }));
   } catch (error) {
     console.error('Error fetching authorized institutions:', error);
