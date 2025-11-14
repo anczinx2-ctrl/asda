@@ -131,30 +131,7 @@ function ParticleBackground() {
   );
 }
 
-function FloatingCredentialCard({ delay = 0 }: { delay?: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 100, rotateX: -20 }}
-      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      transition={{ duration: 0.8, delay }}
-      viewport={{ once: true }}
-      whileHover={{ scale: 1.05, rotateY: 5, rotateX: 5 }}
-      className="bg-white rounded-xl shadow-2xl p-6 border border-gray-200 transform-gpu"
-      style={{ perspective: 1000 }}
-    >
-      <div className="flex items-center justify-between mb-4">
-        <GraduationCap className="w-8 h-8 text-blue-600" />
-        <CheckCircle className="w-6 h-6 text-green-500" />
-      </div>
-      <h3 className="text-lg font-bold text-gray-900 mb-2">Computer Science</h3>
-      <p className="text-sm text-gray-600 mb-3">Stanford University</p>
-      <div className="flex items-center text-xs text-gray-500">
-        <Shield className="w-4 h-4 mr-1" />
-        Verified on Blockchain
-      </div>
-    </motion.div>
-  );
-}
+
 
 export default function LandingPage({ onGetStarted }: LandingPageProps) {
   const { scrollYProgress } = useScroll();
